@@ -24,6 +24,9 @@ def decode_review(encoded_review):
 def preprocess_text(text):
     words = text.lower().split()
     encoded_review = [word_index.get(word,2) + 3 for word in words]
+    # Clip values to fit within the embedding layer's vocabulary range
+    encoded_review = np.clip(encoded_review, 0, 9999)
+    #Using padding
     padded_review = sequence.pad_sequences([encoded_review], maxlen = 500)
     return padded_review
 
